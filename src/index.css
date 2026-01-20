@@ -1,0 +1,18 @@
+body.dark {
+  background-color: #0f172a;
+  color: #e5e7eb;
+}
+
+body.dark .navbar {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+body.dark .nav-logo,
+body.dark .theme-icon {
+  color: #e5e7eb;
+}
+
+body.dark .login {
+  border-color: #e5e7eb;
+  color: #e5e7eb;
+}

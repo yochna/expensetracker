@@ -1,0 +1,127 @@
+
+.navbar {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: calc(100% - 48px);
+  max-width: 1200px;
+
+  z-index: 1000;
+}
+
+
+.navbar-inner {
+  height: 64px;
+  padding: 0 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* LOGO */
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.nav-logo span {
+  color: #6366f1;
+}
+
+/* ACTIONS */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* BUTTONS */
+.nav-btn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.login {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
+
+.login:hover {
+  background: #111827;
+  color: white;
+}
+
+.signup {
+  background: #6366f1;
+  border: none;
+  color: white;
+}
+
+.signup:hover {
+  background: #4f46e5;
+}
+
+/* THEME BUTTON */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(0, 0, 0, 0.05);
+  color: #111827;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.12);
+  transform: rotate(15deg);
+}
+
+
+body.dark .navbar-inner {
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .nav-logo,
+body.dark .theme-toggle {
+  color: #e5e7eb;
+}
+
+body.dark .login {
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark .login:hover {
+  background: #e5e7eb;
+  color: #020617;
+}
+
+body.dark .theme-toggle {
+  background: rgba(255, 255, 255, 0.08);
+}
