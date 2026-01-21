@@ -11,6 +11,8 @@ import {
   Title,
 } from "chart.js";
 import "./Landing.css";
+import { Navigate, useNavigate } from "react-router-dom";
+import Dashboard from "../../../pages/Dashboard";
 
 ChartJS.register(
   ArcElement,
@@ -19,18 +21,18 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  Title
+  Title,
 );
-
+const isdark = document.body.classList.contains("dark");
 const BudgetCircle = ({ percentage }) => {
   const [fill, setFill] = useState(0);
 
   useEffect(() => {
-    let start = 0;
+    let current = 0;
     const animate = () => {
-      start += 1;
-      if (start <= percentage) {
-        setFill(start);
+      current += 1;
+      if (current <= percentage) {
+        setFill(current);
         requestAnimationFrame(animate);
       }
     };
@@ -41,7 +43,7 @@ const BudgetCircle = ({ percentage }) => {
     <div
       className="budget-circle"
       style={{
-        background: `conic-gradient(#6366f1 ${fill}%, rgba(255,255,255,0.12) 0)`,
+        background: `conic-gradient(#6366f1 ${fill}%, var(--circle-bg) 0)`,
       }}
     >
       <span>{fill}%</span>
@@ -51,6 +53,7 @@ const BudgetCircle = ({ percentage }) => {
 };
 
 const Landing = () => {
+  const navigate = useNavigate()
   const monthlyData = {
     labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
     datasets: [
@@ -78,13 +81,7 @@ const Landing = () => {
           "rgba(67,56,202,0.45)",
           "rgba(191,219,254,0.45)",
         ],
-        borderColor: [
-          "#6366f1",
-          "#4f46e5",
-          "#93c5fd",
-          "#4338ca",
-          "#bfdbfe",
-        ],
+        borderColor: ["#6366f1", "#4f46e5", "#93c5fd", "#4338ca", "#bfdbfe"],
         borderWidth: 2,
       },
     ],
@@ -102,19 +99,19 @@ const Landing = () => {
             <span>Complete Expense Control</span>
           </h1>
           <p className="hero-subtitle">
-            Track spending, manage budgets, and gain financial clarity
-            with a clean, modern experience built for you.
+            Track spending, manage budgets, and gain financial clarity with a
+            clean, modern experience built for you.
           </p>
-          <button className="hero-primary">Get Started</button>
+          <button className="hero-primary" onClick={()=> navigate("/Signup")}>Get Started</button>
         </div>
       </section>
-
-      {/* FEATURES SECTION */}
       <section className="features">
         <div className="features-ui">
-          <div className="features-left">
+          {/* LEFT */}
+          <div className="features-left glass-card">
             <p className="label">Monthly Overview</p>
             <h2 className="big-value">₹18,420</h2>
+
             <div className="mini-card">
               <span>Income</span>
               <strong>₹32,000</strong>
@@ -129,14 +126,16 @@ const Landing = () => {
             </div>
           </div>
 
+          {/* CENTER */}
           <div className="features-center">
             <div className="flow-item active">Expense</div>
-            <div className="flow-line"></div>
+            <div className="flow-line" />
             <div className="flow-item active">Categories</div>
-            <div className="flow-line"></div>
+            <div className="flow-line" />
             <div className="flow-item active">Insights</div>
           </div>
 
+          {/* RIGHT */}
           <div className="features-right">
             <BudgetCircle percentage={72} />
           </div>
@@ -169,12 +168,24 @@ const Landing = () => {
                     plugins: { legend: { display: false } },
                     scales: {
                       y: {
-                        grid: { color: "rgba(255,255,255,0.07)" },
-                        ticks: { color: "rgba(255,255,255,0.8)" },
+                        tricks: {
+                          color: isdark ? "#e5e7eb" : "#475569",
+                        },
+                        grid: {
+                          color: isdark
+                            ? "rgba(255,255,255,0.08)"
+                            : "rgba(0,0,0,0.06)",
+                        },
                       },
                       x: {
-                        grid: { color: "rgba(255,255,255,0.07)" },
-                        ticks: { color: "rgba(255,255,255,0.8)" },
+                        tricks: {
+                          color: isdark ? "#e5e7eb" : "#475569",
+                        },
+                        grid: {
+                          color: isdark
+                            ? "rgba(255,255,255,0.08)"
+                            : "rgba(0,0,0,0.06)",
+                        },
                       },
                     },
                     animation: { duration: 1100 },
@@ -191,7 +202,7 @@ const Landing = () => {
                   data={allTimeData}
                   options={{
                     plugins: {
-                      legend: { labels: { color: "rgba(255,255,255,0.8)" } },
+                      legend: { labels: { color: "rgba(111, 118, 183, 0.8)" } },
                     },
                     animation: { duration: 1100 },
                     maintainAspectRatio: false,
@@ -202,102 +213,100 @@ const Landing = () => {
           </div>
         </div>
       </section>
-{/* FEATURE SHOWCASE SECTION */}
-<section className="feature-showcase">
-  {/* Animated background blobs */}
-  <div className="fs-blob blob1"></div>
-  <div className="fs-blob blob2"></div>
+      {/* FEATURE SHOWCASE SECTION */}
+      <section className="feature-showcase">
+        {/* Animated background blobs */}
+        <div className="fs-blob blob1"></div>
+        <div className="fs-blob blob2"></div>
 
-  {/* Floating particles */}
-  <div className="fs-particles">
-    {Array.from({ length: 25 }).map((_, i) => (
-      <div
-        key={i}
-        className="fs-particle"
-        style={{
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-          width: `${Math.random() * 6 + 3}px`,
-          height: `${Math.random() * 6 + 3}px`,
-          animationDuration: `${Math.random() * 30 + 20}s`,
-        }}
-      ></div>
-    ))}
-  </div>
+        {/* Floating particles */}
+        <div className="fs-particles">
+          {Array.from({ length: 25 }).map((_, i) => (
+            <div
+              key={i}
+              className="fs-particle"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                width: `${Math.random() * 6 + 3}px`,
+                height: `${Math.random() * 6 + 3}px`,
+                animationDuration: `${Math.random() * 30 + 20}s`,
+              }}
+            ></div>
+          ))}
+        </div>
 
-  <div className="feature-showcase-content">
-    {/* Left Text */}
-    <div className="fs-text">
-      <h2>Features That Empower You</h2>
-      <p>
-        Everything you need to make smarter spending decisions.  
-        Track, analyze, and control your expenses with ease.
-      </p>
-    </div>
+        <div className="feature-showcase-content">
+          {/* Left Text */}
+          <div className="fs-text">
+            <h2>Features That Empower You</h2>
+            <p>
+              Everything you need to make smarter spending decisions. Track,
+              analyze, and control your expenses with ease.
+            </p>
+          </div>
 
-    {/* Right Cards */}
-    <div className="fs-cards">
-      {/* Radial gradient behind cards */}
-      <div className="fs-cards-bg"></div>
+          {/* Right Cards */}
+          <div className="fs-cards">
+            {/* Radial gradient behind cards */}
+            <div className="fs-cards-bg"></div>
 
-      <div className="fs-card fs-card-1">
-        <h3>Smart Budgeting</h3>
-        <p>Automated budgets that adapt to your habits.</p>
-      </div>
-      <div className="fs-card fs-card-2">
-        <h3>Insight Reports</h3>
-        <p>Monthly views of your expenses and savings.</p>
-      </div>
-      <div className="fs-card fs-card-3">
-        <h3>Category Analysis</h3>
-        <p>Understand exactly where your money goes.</p>
-      </div>
-      <div className="fs-card fs-card-4">
-        <h3>Real-Time Alerts</h3>
-        <p>Receive alerts about overspending instantly.</p>
-      </div>
-    </div>
-  </div>
-</section>
-{/* FOOTER */}
-<footer className="landing-footer">
-  <div className="footer-content">
-    <div className="footer-left">
-      <h2>SpendWise</h2>
-      <p>
-        Track spending, manage budgets, and gain financial clarity.  
-        All your finance insights in one place.
-      </p>
-    </div>
+            <div className="fs-card fs-card-1">
+              <h3>Smart Budgeting</h3>
+              <p>Automated budgets that adapt to your habits.</p>
+            </div>
+            <div className="fs-card fs-card-2">
+              <h3>Insight Reports</h3>
+              <p>Monthly views of your expenses and savings.</p>
+            </div>
+            <div className="fs-card fs-card-3">
+              <h3>Category Analysis</h3>
+              <p>Understand exactly where your money goes.</p>
+            </div>
+            <div className="fs-card fs-card-4">
+              <h3>Real-Time Alerts</h3>
+              <p>Receive alerts about overspending instantly.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* FOOTER */}
+      <footer className="landing-footer">
+        <div className="footer-content">
+          <div className="footer-left">
+            <h2>SpendWise</h2>
+            <p>
+              Track spending, manage budgets, and gain financial clarity. All
+              your finance insights in one place.
+            </p>
+          </div>
 
-    <div className="footer-links">
-      <div className="footer-section">
-        <h4>Product</h4>
-        <a href="#">Features</a>
-        <a href="#">Pricing</a>
-        <a href="#">Dashboard</a>
-      </div>
-      <div className="footer-section">
-        <h4>Company</h4>
-        <a href="#">About</a>
-        <a href="#">Blog</a>
-        <a href="#">Careers</a>
-      </div>
-      <div className="footer-section">
-        <h4>Support</h4>
-        <a href="#">Help Center</a>
-        <a href="#">Contact</a>
-        <a href="#">Privacy Policy</a>
-      </div>
-    </div>
-  </div>
+          <div className="footer-links">
+            <div className="footer-section">
+              <h4>Product</h4>
+              <a href="#">Features</a>
+              <a href="#">Pricing</a>
+              <a href="#">Dashboard</a>
+            </div>
+            <div className="footer-section">
+              <h4>Company</h4>
+              <a href="#">About</a>
+              <a href="#">Blog</a>
+              <a href="#">Careers</a>
+            </div>
+            <div className="footer-section">
+              <h4>Support</h4>
+              <a href="#">Help Center</a>
+              <a href="#">Contact</a>
+              <a href="#">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
 
-  <div className="footer-bottom">
-    <p>© 2026 ExpenseTracker. All rights reserved.</p>
-  </div>
-</footer>
-
-
+        <div className="footer-bottom">
+          <p>© 2026 ExpenseTracker. All rights reserved.</p>
+        </div>
+      </footer>
     </main>
   );
 };
