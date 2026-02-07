@@ -1,8 +1,16 @@
 import "../Login/Login.css";
-
 import { Link } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Signup = () => {
+    const navigate = useNavigate();
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    // TEMP: assume signup success
+    navigate("/dashboard");
+  };
   return (
     <div className="auth-page">
       <div className="auth-card">
@@ -11,7 +19,7 @@ const Signup = () => {
           Start tracking your expenses in minutes
         </p>
 
-        <form className="auth-form">
+        <form className="auth-form" onSubmit={handleSignup}>
           <input type="text" placeholder="Full name" />
           <input type="email" placeholder="Email address" />
           <input type="password" placeholder="Password" />

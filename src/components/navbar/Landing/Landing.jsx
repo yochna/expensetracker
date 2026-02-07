@@ -24,33 +24,55 @@ ChartJS.register(
   Title,
 );
 const isdark = document.body.classList.contains("dark");
+
 const BudgetCircle = ({ percentage }) => {
   const [fill, setFill] = useState(0);
 
   useEffect(() => {
-    let current = 0;
-    const animate = () => {
-      current += 1;
-      if (current <= percentage) {
-        setFill(current);
+    let start = null;
+    const duration = 1200; // ms (smooth & premium)
+
+    const animate = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+
+      setFill(Math.floor(progress * percentage));
+
+      if (progress < 1) {
         requestAnimationFrame(animate);
       }
     };
-    animate();
+
+    requestAnimationFrame(animate);
   }, [percentage]);
 
+  const level =
+    percentage < 50 ? "safe" : percentage < 80 ? "warn" : "danger";
+
   return (
-    <div
-      className="budget-circle"
-      style={{
-        background: `conic-gradient(#6366f1 ${fill}%, var(--circle-bg) 0)`,
-      }}
-    >
-      <span>{fill}%</span>
-      <p>Budget Used</p>
+    <div className="budget-circle-wrapper">
+      <div
+        className={`budget-circle ${level}`}
+        style={{ "--progress": fill }}
+      >
+        <div className="circle-inner">
+          <span className="circle-value">{fill}%</span>
+          <p className="circle-label">Budget Used</p>
+        </div>
+
+        {/* tick marks */}
+        <div className="circle-ticks">
+          {Array.from({ length: 60 }).map((_, i) => (
+            <span key={i} style={{ "--i": i }} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
+
+
+
 
 const Landing = () => {
   const navigate = useNavigate()
